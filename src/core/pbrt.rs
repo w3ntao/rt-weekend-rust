@@ -46,10 +46,9 @@ pub use crate::tools::image::*;
 pub use crate::tools::obj_loader::*;
 pub use crate::tools::utility::*;
 
-pub use rand::distributions::{Distribution, Uniform};
-pub use rand::rngs::ThreadRng;
+pub use rand::distr::{Distribution, Uniform};
 pub use rand::seq::SliceRandom;
-pub use rand::{thread_rng, Rng};
+pub use rand::{rng, Rng};
 
 pub use rand::rngs::StdRng;
 pub use rand::SeedableRng;

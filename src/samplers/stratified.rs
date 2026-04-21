@@ -12,7 +12,7 @@ pub struct StratifiedSampler {
 impl Default for StratifiedSampler {
     fn default() -> Self {
         return Self {
-            rng: StdRng::from_entropy(),
+            rng: StdRng::from_os_rng(),
             round: usize::MAX,
             dimension_1d: usize::MAX,
             dimension_2d: usize::MAX,
@@ -26,7 +26,7 @@ fn generate_stratified_1d_samples(size: usize, rng: &mut StdRng) -> Vec<f32> {
     let mut samples = vec![];
     let unit = 1.0 / (size as f32);
     for idx in 0..size {
-        let val = ((idx as f32) + rng.gen::<f32>()) * unit;
+        let val = ((idx as f32) + rng.random::<f32>()) * unit;
         samples.push(val);
     }
     return samples;
@@ -39,8 +39,8 @@ fn generate_stratified_2d_samples(size: usize, rng: &mut StdRng) -> Vec<Sample2D
         let unit = 1.0 / (sqrt_size as f32);
         for idx_x in 0..sqrt_size {
             for idx_y in 0..sqrt_size {
-                let x = ((idx_x as f32) + rng.gen::<f32>()) * unit;
-                let y = ((idx_y as f32) + rng.gen::<f32>()) * unit;
+                let x = ((idx_x as f32) + rng.random::<f32>()) * unit;
+                let y = ((idx_y as f32) + rng.random::<f32>()) * unit;
 
                 samples.push((x, y));
             }
@@ -63,7 +63,7 @@ impl Sampler for StratifiedSampler {
 
     fn preprocess(&mut self, samples_per_pixel: usize) {
         // round == samples_per_pixel
-        self.rng = StdRng::from_entropy();
+        self.rng = StdRng::from_os_rng();
         self.round = 0;
 
         self.dimension_1d = 0;
@@ -92,7 +92,7 @@ impl Sampler for StratifiedSampler {
         if self.round >= self.samples_1d.len()
             || self.dimension_1d >= self.samples_1d[self.round].len()
         {
-            return self.rng.gen::<f32>();
+            return self.rng.random::<f32>();
         }
 
         let sample = self.samples_1d[self.round][self.dimension_1d];
@@ -104,7 +104,7 @@ impl Sampler for StratifiedSampler {
         if self.round >= self.samples_2d.len()
             || self.dimension_2d >= self.samples_2d[self.round].len()
         {
-            return (self.rng.gen::<f32>(), self.rng.gen::<f32>());
+            return (self.rng.random::<f32>(), self.rng.random::<f32>());
         }
 
         let sample = self.samples_2d[self.round][self.dimension_2d];

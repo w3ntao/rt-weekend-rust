@@ -127,7 +127,7 @@ pub fn create_rt_weekend() -> Arc<Configuration> {
     const RANDOM_SEED: u64 = 11;
 
     fn random_color(random_generator: &mut StdRng) -> Color {
-        let uniform_distribution = Uniform::new(0.0, 1.0);
+        let uniform_distribution = Uniform::new(0.0, 1.0).unwrap();
 
         loop {
             let color = Color::new(
@@ -144,7 +144,7 @@ pub fn create_rt_weekend() -> Arc<Configuration> {
 
     fn many_random_spheres_with_dragons() -> Scene {
         let mut random_generator = StdRng::seed_from_u64(RANDOM_SEED);
-        let uniform_distribution = Uniform::new(0.0, 1.0);
+        let uniform_distribution = Uniform::new(0.0, 1.0).unwrap();
 
         let mut scene = Scene::default();
 

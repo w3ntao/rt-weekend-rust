@@ -135,7 +135,7 @@ pub fn render(
     file_name: &str,
 ) {
     let mut job_list: Vec<usize> = (0..width).collect();
-    job_list.shuffle(&mut thread_rng());
+    job_list.shuffle(&mut rng());
 
     let shared_job_list = Arc::new(Mutex::new(job_list));
     let shared_image = Arc::new(Mutex::new(Image::new(width, height)));
